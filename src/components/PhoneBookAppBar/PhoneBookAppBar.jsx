@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-import { authSelectors } from 'redux/auth';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -12,15 +11,20 @@ import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { authOperations } from 'redux/auth';
 import { useNavigate } from 'react-router-dom';
+import {
+  getCurrentUserName,
+  getIsLoggedIn,
+  logOut,
+} from 'redux/auth/authSlice';
 
 export default function PhoneBookAppBar() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+  const isLoggedIn = useSelector(getIsLoggedIn);
   const [anchorEl, setAnchorEl] = useState(null);
   let navigate = useNavigate();
-  const name = useSelector(authSelectors.getUsername);
+  const name = useSelector(getCurrentUserName);
+  console.log(name);
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -87,7 +91,7 @@ export default function PhoneBookAppBar() {
                   >
                     <MenuItem
                       onClick={() => {
-                        dispatch(authOperations.logOut());
+                        dispatch(logOut());
                         handleClose();
                       }}
                     >

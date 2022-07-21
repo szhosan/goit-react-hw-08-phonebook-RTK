@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { authOperations } from 'redux/auth';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,14 +11,20 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRegisterMutation } from 'redux/auth/authApiSlice';
+import { setCredentials } from 'redux/auth/authSlice';
+import { useDispatch } from 'react-redux';
 
 const theme = createTheme();
 
 export default function RegisterForm() {
-  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+
+  const [register, { isRegistering }] = useRegisterMutation();
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
@@ -34,9 +39,10 @@ export default function RegisterForm() {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    dispatch(authOperations.register({ name, email, password }));
+    const userData = await register({ name, email, password }).unwrap();
+    dispatch(setCredentials({ ...userData, email }));
     setName('');
     setEmail('');
     setPassword('');
@@ -108,6 +114,7 @@ export default function RegisterForm() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isRegistering}
             >
               Sign Up
             </Button>

@@ -34,7 +34,6 @@ const style = {
 const ContactsList = () => {
   const [filter, setFilter] = useState('');
   const { data } = useFetchContactsQuery();
-  console.log(data);
   const [checked, setChecked] = useState([]);
   const confirmDialog = useConfirm();
   const [isModalOpen, setIsModalOpen] = useState(false);

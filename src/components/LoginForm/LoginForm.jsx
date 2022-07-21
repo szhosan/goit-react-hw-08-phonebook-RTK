@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { authOperations } from 'redux/auth';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,11 +11,14 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useLoginMutation } from 'redux/auth/authApiSlice';
+import { setCredentials } from 'redux/auth/authSlice';
 
 const theme = createTheme();
 
 export default function LoginForm() {
   const dispatch = useDispatch();
+  const [login, { isLogging }] = useLoginMutation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -31,9 +33,12 @@ export default function LoginForm() {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    dispatch(authOperations.logIn({ email, password }));
+    const userData = await login({ email, password }).unwrap();
+    dispatch(setCredentials({ ...userData, email }));
+
+    //dispatch(authOperations.logIn({ email, password }));
     setEmail('');
     setPassword('');
   };
@@ -91,6 +96,7 @@ export default function LoginForm() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isLogging}
             >
               Sign In
             </Button>
