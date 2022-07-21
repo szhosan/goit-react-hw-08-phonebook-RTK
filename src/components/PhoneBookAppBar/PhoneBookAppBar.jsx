@@ -14,7 +14,6 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authOperations } from 'redux/auth';
 import { useNavigate } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
 
 export default function PhoneBookAppBar() {
   const dispatch = useDispatch();

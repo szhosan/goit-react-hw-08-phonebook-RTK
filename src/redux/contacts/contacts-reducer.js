@@ -30,7 +30,7 @@ export const contactsApi = createApi({
           number,
         },
       }),
-      invalidatesTags: ['Contact'],
+      invalidatesTags: ['Contacts'],
     }),
   }),
 });
