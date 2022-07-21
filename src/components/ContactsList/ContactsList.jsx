@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -17,7 +16,10 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import { useConfirm } from 'material-ui-confirm';
 import Modal from '@mui/material/Modal';
 import AddEditContactForm from 'components/AddEditContactForm/AddEditContactForm';
-import { useFetchContactsQuery } from 'redux/contacts/contacts-reducer';
+import {
+  useDeleteContactMutation,
+  useFetchContactsQuery,
+} from 'redux/contacts/contacts-reducer';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -33,11 +35,11 @@ const ContactsList = () => {
   const [filter, setFilter] = useState('');
   const { data } = useFetchContactsQuery();
   console.log(data);
-  const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
   const confirmDialog = useConfirm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contactIdToEdit, setContactIdToEdit] = useState('');
+  const [deleteContact] = useDeleteContactMutation();
 
   const handleFilterChange = value => {
     setFilter(value);
@@ -70,8 +72,7 @@ const ContactsList = () => {
       description: `Are you really want to delete ${namesToDelete} from your contact book?`,
     })
       .then(() => {
-        checked.map(id => dispatch(/* contactsOperations.deleteContact(id) */));
-        setChecked([]);
+        checked.map(id => deleteContact(id).then(_ => setChecked([])));
       })
       .catch(() => {});
   };

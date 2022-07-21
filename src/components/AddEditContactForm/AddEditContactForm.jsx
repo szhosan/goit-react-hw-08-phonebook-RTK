@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -11,7 +9,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ReactPhoneInput from 'react-phone-input-material-ui';
 import { useConfirm } from 'material-ui-confirm';
 import PropTypes from 'prop-types';
-import { useCreateContactMutation } from 'redux/contacts/contacts-reducer';
+import {
+  useCreateContactMutation,
+  useEditContactMutation,
+} from 'redux/contacts/contacts-reducer';
 
 const theme = createTheme();
 
@@ -21,9 +22,9 @@ function AddEditContactForm({
   contactIdToEdit = null,
 }) {
   const [contact, setContact] = useState({ name: '', number: '' });
-  const dispatch = useDispatch();
 
-  const [createContact, { isLoading }] = useCreateContactMutation();
+  const [createContact, { isCreating }] = useCreateContactMutation();
+  const [editContact, { isEditing }] = useEditContactMutation();
 
   const confirmDialog = useConfirm();
 
@@ -67,14 +68,13 @@ function AddEditContactForm({
       return;
     }
     if (contactIdToEdit) {
-      dispatch();
-      /* contactsOperations.editContact({
-          id: contactIdToEdit,
-          name: contact.name,
-          number: contact.number,
-        }) */
-      onClose();
-      reset();
+      editContact({
+        id: contactIdToEdit,
+        ...contact,
+      }).then(_ => {
+        onClose();
+        reset();
+      });
     } else {
       if (!nameAlreadyExist(addedContacts, contact.name)) {
         createContact(contact).then(_ => {
@@ -134,7 +134,7 @@ function AddEditContactForm({
               type="submit"
               fullWidth
               variant="contained"
-              disabled={isLoading}
+              disabled={isEditing || isCreating}
               sx={{ mt: 3, mb: 2 }}
             >
               {contactIdToEdit ? 'Save changes' : 'Add'}
