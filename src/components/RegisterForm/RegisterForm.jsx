@@ -25,6 +25,7 @@ export default function RegisterForm() {
   const dispatch = useDispatch();
 
   const [register, { isRegistering }] = useRegisterMutation();
+  console.log(register);
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {

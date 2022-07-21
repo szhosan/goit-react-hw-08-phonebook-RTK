@@ -1,12 +1,12 @@
 import Section from './Section/Section';
-import { useDispatch } from 'react-redux';
-import { useEffect, lazy, Suspense } from 'react';
+
+import { lazy, Suspense } from 'react';
 
 import PhoneBookAppBar from './PhoneBookAppBar/PhoneBookAppBar';
 import { Routes, Route } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
-import { useSelector } from 'react-redux';
+
 import { Navigate } from 'react-router-dom';
 import Progress from './Progress/Progress';
 const RegisterForm = lazy(() => import('./RegisterForm/RegisterForm'));
@@ -14,7 +14,7 @@ const LoginForm = lazy(() => import('./LoginForm/LoginForm'));
 const ContactsView = lazy(() => import('./ContactsView/ContactsView'));
 
 function App() {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   //const isFetchingCurrentUser = useSelector(authSelectors.getIsFetchingCurrent);
   /* useEffect(() => {
     dispatch(authOperations.fetchCurrentUser());
