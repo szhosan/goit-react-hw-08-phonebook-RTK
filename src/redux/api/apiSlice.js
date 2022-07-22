@@ -1,10 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { setCredentials, logOut } from '../auth/authSlice';
-// import Config from '../../config/env'
+import { logOut } from '../auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://connections-api.herokuapp.com',
-  // credentials: 'include',
+
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
     if (token) {
@@ -16,7 +15,7 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithErrorHandler = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log(result);
+  //console.log(result);
   if (!result?.meta?.response?.ok) {
     //console.log('Ошибочка');
     let errorMessage = '';
