@@ -9,6 +9,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credentials },
       }),
     }),
+    fetchCurrentUser: builder.query({
+      query: credentials => ({
+        url: '/users/current',
+        method: 'GET',
+      }),
+    }),
     register: builder.mutation({
       query: credentials => ({
         url: '/users/signup',
@@ -19,4 +25,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApiSlice;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useFetchCurrentUserQuery,
+} = authApiSlice;
