@@ -1,21 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { apiSlice } from '../api/apiSlice';
 
-export const contactsApi = createApi({
-  reducerPath: 'contacts',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://connections-api.herokuapp.com',
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-
-      // If we have a token set in state, let's assume that we should be passing it.
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-
-      return headers;
-    },
-  }),
-  tagTypes: ['Contacts'],
+export const contactsApi = apiSlice.injectEndpoints({
   endpoints: builder => ({
     fetchContacts: builder.query({
       query: () => '/contacts',
