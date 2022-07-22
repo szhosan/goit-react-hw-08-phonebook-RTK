@@ -18,7 +18,7 @@ const theme = createTheme();
 
 export default function LoginForm() {
   const dispatch = useDispatch();
-  const [login, { isLogging }] = useLoginMutation();
+  const [login, { isLoading: isLogging }] = useLoginMutation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

@@ -24,7 +24,6 @@ export default function PhoneBookAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   let navigate = useNavigate();
   const name = useSelector(getCurrentUserName);
-  console.log(name);
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);

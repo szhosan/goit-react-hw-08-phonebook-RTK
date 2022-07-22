@@ -23,8 +23,8 @@ function AddEditContactForm({
 }) {
   const [contact, setContact] = useState({ name: '', number: '' });
 
-  const [createContact, { isCreating }] = useCreateContactMutation();
-  const [editContact, { isEditing }] = useEditContactMutation();
+  const [createContact, { isLoading: isCreating }] = useCreateContactMutation();
+  const [editContact, { isLoading: isEditing }] = useEditContactMutation();
 
   const confirmDialog = useConfirm();
 
