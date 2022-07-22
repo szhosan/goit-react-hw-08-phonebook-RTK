@@ -14,25 +14,28 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
+const baseQueryWithErrorHandler = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-
-  if (result?.error?.originalStatus === 400) {
-    console.log('Sending refresh token');
-    const refreshResult = await baseQuery('/users/current', api, extraOptions);
-    console.log(refreshResult);
-    if (refreshResult?.data) {
-      const user = api.getState().auth.user;
-      api.dispatch(setCredentials({ ...refreshResult.data, user }));
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      api.dispatch(logOut());
+  console.log(result);
+  if (!result?.meta?.response?.ok) {
+    //console.log('Ошибочка');
+    let errorMessage = '';
+    switch (result.meta.response.status) {
+      case '400':
+        errorMessage = 'Email or password is incorrect';
+        break;
+      case '401':
+        errorMessage = 'Email or password is incorrect';
+        break;
+      default:
+        errorMessage = 'Something went wrong! Try again!';
     }
+    api.dispatch(logOut());
   }
   return result;
 };
 
 export const apiSlice = createApi({
-  baseQuery: baseQueryWithReauth,
+  baseQuery: baseQueryWithErrorHandler,
   endpoints: builder => ({}),
 });
