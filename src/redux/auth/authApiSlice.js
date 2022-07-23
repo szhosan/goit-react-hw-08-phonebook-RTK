@@ -10,7 +10,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     fetchCurrentUser: builder.query({
-      query: credentials => ({
+      query: () => ({
         url: '/users/current',
         method: 'GET',
       }),
