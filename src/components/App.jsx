@@ -21,8 +21,11 @@ function App() {
   const currentToken = useSelector(getCurrentToken);
   const dispatch = useDispatch();
   const { data, isLoading: isFetchingCurUser } = useFetchCurrentUserQuery();
+  console.log(data);
   useEffect(() => {
-    dispatch(setCredentials({ user: data, token: currentToken }));
+    if (data) {
+      dispatch(setCredentials({ user: data, token: currentToken }));
+    }
   }, [currentToken, data, dispatch]);
   return (
     <Section>

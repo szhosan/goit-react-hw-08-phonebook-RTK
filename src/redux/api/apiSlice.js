@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { logOut } from '../auth/authSlice';
+import { logOut, setError } from '../auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://connections-api.herokuapp.com',
@@ -20,16 +20,17 @@ const baseQueryWithErrorHandler = async (args, api, extraOptions) => {
     //console.log('Ошибочка');
     let errorMessage = '';
     switch (result.meta.response.status) {
-      case '400':
+      case 400:
         errorMessage = 'Email or password is incorrect';
         break;
-      case '401':
+      case 401:
         errorMessage = 'Email or password is incorrect';
         break;
       default:
         errorMessage = 'Something went wrong! Try again!';
     }
     api.dispatch(logOut());
+    api.dispatch(setError(errorMessage));
   }
   return result;
 };

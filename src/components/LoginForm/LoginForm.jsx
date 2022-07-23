@@ -36,7 +36,7 @@ export default function LoginForm() {
   const handleSubmit = async e => {
     e.preventDefault();
     const userData = await login({ email, password }).unwrap();
-    dispatch(setCredentials({ ...userData, email }));
+    dispatch(setCredentials({ ...userData }));
 
     //dispatch(authOperations.logIn({ email, password }));
     setEmail('');

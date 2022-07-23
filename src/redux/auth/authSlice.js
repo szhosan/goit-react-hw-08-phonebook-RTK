@@ -14,15 +14,18 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
       }
     },
-    logOut: (state, action) => {
+    logOut: (state, _) => {
       state.user = null;
       state.token = null;
       state.isLoggedIn = false;
     },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const { setCredentials, logOut, setError } = authSlice.actions;
 export default authSlice.reducer;
 
 export const getCurrentUserName = state => state.auth.user?.name;
