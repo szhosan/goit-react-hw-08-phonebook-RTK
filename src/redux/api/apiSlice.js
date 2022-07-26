@@ -14,6 +14,7 @@ const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithErrorHandler = async (args, api, extraOptions) => {
+  api.dispatch(setError(null));
   let result = await baseQuery(args, api, extraOptions);
   //console.log(result);
   if (!result?.meta?.response?.ok) {

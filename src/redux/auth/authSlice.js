@@ -31,3 +31,4 @@ export default authSlice.reducer;
 export const getCurrentUserName = state => state.auth.user?.name;
 export const getCurrentToken = state => state.auth.token;
 export const getIsLoggedIn = state => state.auth.isLoggedIn;
+export const getError = state => state.auth.error;
